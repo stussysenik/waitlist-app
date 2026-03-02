@@ -1,0 +1,15 @@
+You're on the list!
+
+Thanks for joining the <%= @waitlist.name %> waitlist. You're #<%= @subscriber.position %> in line.
+
+<% if @waitlist.referral_enabled? %>
+Want to move up? Share your personal referral link:
+<%= @subscriber.referral_url %>
+
+Each friend who joins through your link moves you up one spot.
+<% end %>
+
+We'll keep you posted on updates.
+
+--
+Powered by WaitlistApp

@@ -1,0 +1,23 @@
+<div class="header">
+  <h1>You're on the list!</h1>
+</div>
+<div class="content">
+  <p>
+    Thanks for joining the <strong><%= @waitlist.name %></strong> waitlist.
+    You're <strong>#<%= @subscriber.position %></strong> in line.
+  </p>
+
+  <% if @waitlist.referral_enabled? %>
+    <p>Want to move up? Share your personal referral link with friends:</p>
+
+    <div style="background: #f3f4f6; border-radius: 8px; padding: 16px; margin: 20px 0;">
+      <code style="font-size: 14px; color: #374151; word-break: break-all;"><%= @subscriber.referral_url %></code>
+    </div>
+
+    <p style="font-size: 14px; color: #6b7280;">
+      Each friend who joins through your link moves you up one spot.
+    </p>
+  <% end %>
+
+  <p>We'll keep you posted on updates.</p>
+</div>
