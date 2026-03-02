@@ -1,0 +1,15 @@
+<div class="header">
+  <h1>Reset your password</h1>
+</div>
+<div class="content">
+  <p>We received a request to reset your password. Click the button below to choose a new one.</p>
+
+  <div style="text-align: center; margin: 28px 0;">
+    <a href="<%= edit_password_url(@user.password_reset_token) %>" class="button">Reset Password</a>
+  </div>
+
+  <p style="font-size: 14px; color: #6b7280;">
+    This link will expire in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+    If you didn't request this, you can safely ignore this email.
+  </p>
+</div>

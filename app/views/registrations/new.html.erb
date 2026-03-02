@@ -1,0 +1,41 @@
+<h1 class="text-2xl font-bold text-gray-900 text-center">Create your account</h1>
+<p class="mt-2 text-center text-sm text-gray-500">Start building viral waitlists in minutes.</p>
+
+<%= form_with model: @user, url: registration_path, class: "mt-8 space-y-5" do |form| %>
+  <% if @user.errors.any? %>
+    <div class="rounded-lg bg-red-50 p-4 text-sm text-red-700">
+      <% @user.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <label for="user_name" class="block text-sm font-medium text-gray-700">Name</label>
+    <%= form.text_field :name, required: true, autofocus: true, placeholder: "Your name", class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <label for="user_email_address" class="block text-sm font-medium text-gray-700">Email address</label>
+    <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "you@example.com", class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <label for="user_password" class="block text-sm font-medium text-gray-700">Password</label>
+    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Create a password", maxlength: 72, class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <label for="user_password_confirmation" class="block text-sm font-medium text-gray-700">Confirm password</label>
+    <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Confirm your password", maxlength: 72, class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <%= form.submit "Create account", class: "w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 cursor-pointer" %>
+  </div>
+
+  <div class="text-center text-sm text-gray-500">
+    Already have an account?
+    <%= link_to "Sign in", new_session_path, class: "text-indigo-600 hover:text-indigo-500" %>
+  </div>
+<% end %>
