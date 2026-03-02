@@ -1,4 +1,17 @@
+<div align="center">
+
 # WaitlistApp
+
+### Viral waitlists with built-in referral mechanics
+
+![Rails](https://img.shields.io/badge/Rails-8.1-CC0000?style=flat-square&logo=rubyonrails&logoColor=white)
+![Ruby](https://img.shields.io/badge/Ruby-4.0-CC342D?style=flat-square&logo=ruby&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-WAL-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![Kamal](https://img.shields.io/badge/Kamal-Deploy-black?style=flat-square)
+
+</div>
+
+---
 
 A production-grade SaaS for creating viral waitlists with built-in referral mechanics. Built with Rails 8, SQLite, and the "Midnight Aurora" design system.
 
