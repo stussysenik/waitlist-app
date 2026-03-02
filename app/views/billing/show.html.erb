@@ -1,0 +1,44 @@
+<div class="space-y-8">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Billing</h1>
+    <p class="mt-1 text-sm text-gray-500">Manage your subscription and billing.</p>
+  </div>
+
+  <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-base font-semibold text-gray-900">Current Plan</h3>
+        <div class="mt-2 flex items-center gap-x-3">
+          <%= plan_badge(current_user.plan) %>
+          <% if current_user.trial_active? %>
+            <span class="text-sm text-gray-500">Trial ends <%= time_ago_in_words(current_user.trial_ends_at) %> from now</span>
+          <% end %>
+        </div>
+      </div>
+      <% unless current_user.pro? %>
+        <%= link_to "Upgrade", pricing_path, class: "rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500" %>
+      <% end %>
+    </div>
+
+    <dl class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3 border-t border-gray-200 pt-6">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Waitlists</dt>
+        <dd class="mt-1 text-lg font-semibold text-gray-900"><%= current_user.waitlists.count %> / <%= current_user.plan_waitlist_limit == Float::INFINITY ? "Unlimited" : current_user.plan_waitlist_limit %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Total Subscribers</dt>
+        <dd class="mt-1 text-lg font-semibold text-gray-900"><%= Subscriber.where(waitlist: current_user.waitlists).count %> / <%= current_user.plan_subscriber_limit == Float::INFINITY ? "Unlimited" : number_with_delimiter(current_user.plan_subscriber_limit) %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <% if current_user.stripe_customer_id.present? %>
+    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
+      <h3 class="text-base font-semibold text-gray-900">Manage Subscription</h3>
+      <p class="mt-1 text-sm text-gray-500">Update payment method, view invoices, or cancel.</p>
+      <div class="mt-4">
+        <%= link_to "Open Customer Portal", billing_path(portal: true), data: { turbo_method: :post }, class: "rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+      </div>
+    </div>
+  <% end %>
+</div>
