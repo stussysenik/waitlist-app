@@ -1,0 +1,13 @@
+# See https://www.robotstxt.org/robotstxt.html for documentation
+
+User-agent: *
+Allow: /
+
+Disallow: /dashboard
+Disallow: /waitlists
+Disallow: /billing
+Disallow: /session
+Disallow: /registration
+Disallow: /passwords
+
+Sitemap: https://waitlistapp.com/sitemap.xml

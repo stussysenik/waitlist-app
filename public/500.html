@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Something went wrong - WaitlistApp</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      * { margin: 0; }
+      body {
+        background: #f8fafc;
+        color: #1e293b;
+        display: grid;
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100dvh;
+        place-items: center;
+      }
+      main {
+        display: grid;
+        gap: 1.5rem;
+        padding: 2rem;
+        place-items: center;
+        text-align: center;
+        max-width: 28rem;
+      }
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.75rem;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+      }
+      .logo svg { width: 1.25rem; height: 1.25rem; color: white; }
+      .code { font-size: 4rem; font-weight: 700; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      h1 { font-size: 1.25rem; font-weight: 600; }
+      p { font-size: 0.875rem; color: #64748b; line-height: 1.6; }
+      a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; text-decoration: none; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+      a:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="logo">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+        </svg>
+      </div>
+      <div class="code">500</div>
+      <h1>Something went wrong</h1>
+      <p>We're experiencing an issue. Please try again in a few moments.</p>
+      <a href="/">Go home</a>
+    </main>
+  </body>
+</html>
