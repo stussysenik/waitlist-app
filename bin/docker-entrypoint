@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+  ./bin/rails db:prepare
+
+  # Enable WAL mode on all SQLite databases
+  for db in storage/*.sqlite3; do
+    if [ -f "$db" ]; then
+      sqlite3 "$db" "PRAGMA journal_mode=wal;"
+    fi
+  done
+fi
+
+exec "${@}"
