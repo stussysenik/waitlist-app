@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  name: MyString
+  slug: MyString
+  headline: MyString
+  description: MyText
+  cta_text: MyString
+  brand_color: MyString
+  status: 1
+  referral_enabled: false
+  launch_date: 2026-03-02
+  subscribers_count: 1
+
+two:
+  user: two
+  name: MyString
+  slug: MyString
+  headline: MyString
+  description: MyText
+  cta_text: MyString
+  brand_color: MyString
+  status: 1
+  referral_enabled: false
+  launch_date: 2026-03-02
+  subscribers_count: 1
