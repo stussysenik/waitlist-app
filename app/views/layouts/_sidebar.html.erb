@@ -1,0 +1,53 @@
+<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 px-6 pb-4 relative">
+  <!-- Noise overlay -->
+  <div class="absolute inset-0 noise-texture pointer-events-none"></div>
+
+  <div class="relative flex h-16 shrink-0 items-center gap-x-3">
+    <!-- Gradient logo icon -->
+    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 shadow-lg shadow-brand-500/25">
+      <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+      </svg>
+    </div>
+    <span class="text-xl font-bold tracking-tight">
+      <span class="text-white">Waitlist</span><span class="text-brand-400">App</span>
+    </span>
+    <% if local_assigns[:show_close] %>
+      <button data-action="sidebar#close" class="ml-auto text-gray-400 hover:text-white transition-colors">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    <% end %>
+  </div>
+
+  <nav class="relative flex flex-1 flex-col">
+    <ul role="list" class="flex flex-1 flex-col gap-y-7">
+      <li>
+        <ul role="list" class="-mx-2 space-y-1">
+          <%= sidebar_link "Dashboard", dashboard_path, icon: "chart" %>
+          <%= sidebar_link "Waitlists", waitlists_path, icon: "list" %>
+          <%= sidebar_link "Billing", billing_path, icon: "card" %>
+        </ul>
+      </li>
+      <li class="mt-auto">
+        <div class="flex items-center gap-x-3 px-2 py-3 text-sm text-gray-400">
+          <!-- Gradient ring avatar -->
+          <div class="relative">
+            <div class="absolute -inset-0.5 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 opacity-75"></div>
+            <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-xs font-medium text-white">
+              <%= current_user.name&.first&.upcase || "?" %>
+            </div>
+          </div>
+          <div class="flex-1 truncate">
+            <p class="text-sm font-medium text-white truncate"><%= current_user.name %></p>
+            <p class="text-xs text-gray-400 truncate"><%= current_user.email_address %></p>
+          </div>
+        </div>
+        <div class="-mx-2 mt-1">
+          <%= link_to "Sign out", session_path, data: { turbo_method: :delete }, class: "group flex gap-x-3 rounded-md px-2 py-2 text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white transition-colors" %>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>

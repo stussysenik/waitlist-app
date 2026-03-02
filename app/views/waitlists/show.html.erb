@@ -1,0 +1,113 @@
+<div class="space-y-8">
+  <!-- Header -->
+  <div class="flex items-start justify-between">
+    <div>
+      <div class="flex items-center gap-x-3">
+        <h1 class="text-2xl font-bold text-gray-900"><%= @waitlist.name %></h1>
+        <%= status_badge(@waitlist.status) %>
+      </div>
+      <div class="mt-2 flex items-center gap-x-4 text-sm text-gray-500" data-controller="clipboard">
+        <span>Public URL:</span>
+        <code class="rounded bg-gray-100 px-2 py-1 text-xs" data-clipboard-target="source"><%= public_page_url(@waitlist.slug) %></code>
+        <button data-action="clipboard#copy" class="text-indigo-600 hover:text-indigo-500 text-xs font-medium">Copy</button>
+      </div>
+    </div>
+    <div class="flex items-center gap-x-3">
+      <%= link_to public_page_path(@waitlist.slug), target: "_blank", class: "inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" do %>
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        </svg>
+        Preview
+      <% end %>
+      <%= link_to "Edit", edit_waitlist_path(@waitlist), class: "inline-flex items-center rounded-lg bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+      <%= link_to "Delete", waitlist_path(@waitlist), data: { turbo_method: :delete, turbo_confirm: "Are you sure? This will delete all subscribers." }, class: "inline-flex items-center rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100" %>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-4">
+    <div class="rounded-xl bg-white px-6 py-5 shadow-sm ring-1 ring-gray-900/5">
+      <p class="text-sm font-medium text-gray-500">Subscribers</p>
+      <p class="mt-1 text-2xl font-semibold text-gray-900"><%= number_with_delimiter(@waitlist.subscribers_count) %></p>
+    </div>
+    <div class="rounded-xl bg-white px-6 py-5 shadow-sm ring-1 ring-gray-900/5">
+      <p class="text-sm font-medium text-gray-500">Referrals</p>
+      <p class="mt-1 text-2xl font-semibold text-gray-900"><%= number_with_delimiter(@waitlist.total_referrals) %></p>
+    </div>
+    <div class="rounded-xl bg-white px-6 py-5 shadow-sm ring-1 ring-gray-900/5">
+      <p class="text-sm font-medium text-gray-500">Growth (7d)</p>
+      <p class="mt-1 text-2xl font-semibold text-gray-900"><%= @waitlist.growth_rate %>%</p>
+    </div>
+    <div class="rounded-xl bg-white px-6 py-5 shadow-sm ring-1 ring-gray-900/5">
+      <p class="text-sm font-medium text-gray-500">Referral Enabled</p>
+      <p class="mt-1 text-2xl font-semibold text-gray-900"><%= @waitlist.referral_enabled? ? "Yes" : "No" %></p>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5" data-controller="chart">
+    <h3 class="text-base font-semibold text-gray-900">Subscriber Growth (30 days)</h3>
+    <div class="mt-4" style="height: 250px">
+      <% if @chart_data.any? %>
+        <%= line_chart @chart_data, colors: [@waitlist.brand_color], library: { plugins: { legend: { display: false } } } %>
+      <% else %>
+        <div class="flex h-full items-center justify-center text-gray-400">
+          <p>No data yet. Share your waitlist page to start collecting subscribers.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Subscribers Table -->
+  <%= turbo_frame_tag "subscribers_table" do %>
+    <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5">
+      <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <h3 class="text-base font-semibold text-gray-900">Subscribers</h3>
+        <% if @waitlist.subscribers.any? %>
+          <%= link_to "Export CSV", export_waitlist_subscribers_path(@waitlist), class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+        <% end %>
+      </div>
+
+      <% if @subscribers.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Referrals</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                <th class="px-6 py-3"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @subscribers.each do |subscriber| %>
+                <tr>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"><%= subscriber.position %></td>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900"><%= subscriber.email %></td>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"><%= subscriber.name.presence || "-" %></td>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"><%= subscriber.referral_count %></td>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"><%= subscriber.source.presence || "direct" %></td>
+                  <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"><%= time_ago_in_words(subscriber.created_at) %> ago</td>
+                  <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
+                    <%= link_to "Remove", waitlist_subscriber_path(@waitlist, subscriber), data: { turbo_method: :delete, turbo_confirm: "Remove this subscriber?" }, class: "text-red-600 hover:text-red-500" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="border-t border-gray-200 px-6 py-4">
+          <%== @pagy.series_nav %>
+        </div>
+      <% else %>
+        <div class="px-6 py-12 text-center text-sm text-gray-500">
+          <p>No subscribers yet. Share your waitlist page to start collecting emails.</p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

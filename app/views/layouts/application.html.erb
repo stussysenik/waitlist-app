@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-50">
+  <head>
+    <title><%= content_for(:title) || "WaitlistApp" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="WaitlistApp">
+    <meta name="description" content="Create viral waitlist landing pages. Collect emails, enable referrals, track growth.">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <%= meta_tags if respond_to?(:meta_tags) %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full">
+    <% if authenticated? %>
+      <div class="min-h-full" data-controller="sidebar">
+        <!-- Mobile backdrop -->
+        <div class="relative z-50 lg:hidden hidden" data-sidebar-target="backdrop" data-action="click->sidebar#close">
+          <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm"></div>
+        </div>
+
+        <!-- Mobile sidebar -->
+        <div class="fixed inset-y-0 z-50 flex w-64 flex-col -translate-x-full transition-transform duration-300 lg:hidden" data-sidebar-target="mobile">
+          <%= render "layouts/sidebar", show_close: true %>
+        </div>
+
+        <!-- Desktop sidebar -->
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
+          <%= render "layouts/sidebar" %>
+        </div>
+
+        <!-- Mobile top bar -->
+        <div class="sticky top-0 z-40 flex items-center gap-x-4 bg-gradient-to-r from-slate-900 to-slate-900 px-4 py-3 shadow-lg lg:hidden">
+          <button data-action="sidebar#open" class="-m-2.5 p-2.5 text-gray-400 hover:text-white transition-colors">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+          <span class="text-sm font-bold tracking-tight">
+            <span class="text-white">Waitlist</span><span class="text-brand-400">App</span>
+          </span>
+        </div>
+
+        <!-- Main content -->
+        <div class="lg:pl-64">
+          <main class="py-6 lg:py-10">
+            <div class="px-4 sm:px-6 lg:px-8">
+              <% if flash[:notice] %>
+                <div class="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-700 ring-1 ring-green-200" data-controller="notification">
+                  <%= flash[:notice] %>
+                </div>
+              <% end %>
+              <% if flash[:alert] %>
+                <div class="mb-6 rounded-lg bg-red-50 p-4 text-sm text-red-700 ring-1 ring-red-200" data-controller="notification">
+                  <%= flash[:alert] %>
+                </div>
+              <% end %>
+              <%= yield %>
+            </div>
+          </main>
+        </div>
+      </div>
+    <% else %>
+      <!-- Unauthenticated layout (login/register) -->
+      <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+          <div class="text-center mb-8">
+            <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 shadow-lg shadow-brand-500/25 mx-auto mb-3">
+              <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900">
+              <span>Waitlist</span><span class="text-brand-500">App</span>
+            </h2>
+          </div>
+          <% if flash[:notice] %>
+            <div class="mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-700"><%= flash[:notice] %></div>
+          <% end %>
+          <% if flash[:alert] %>
+            <div class="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-700"><%= flash[:alert] %></div>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div>
+    <% end %>
+  </body>
+</html>

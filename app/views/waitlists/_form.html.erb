@@ -1,0 +1,77 @@
+<%= form_with model: waitlist, class: "space-y-6" do |form| %>
+  <% if waitlist.errors.any? %>
+    <div class="rounded-lg bg-red-50 p-4">
+      <div class="flex">
+        <div class="text-sm text-red-700">
+          <p class="font-medium">Please fix the following errors:</p>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <% waitlist.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, required: true, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <%= form.label :slug, "URL Slug", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1 flex rounded-lg shadow-sm">
+        <span class="inline-flex items-center rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">yourapp.com/</span>
+        <%= form.text_field :slug, class: "block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2", placeholder: "my-product" %>
+      </div>
+    </div>
+
+    <div class="sm:col-span-2">
+      <%= form.label :headline, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :headline, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border", placeholder: "Be the first to know when we launch" %>
+    </div>
+
+    <div class="sm:col-span-2">
+      <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :description, rows: 3, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border", placeholder: "Tell visitors what your product does..." %>
+    </div>
+
+    <div>
+      <%= form.label :cta_text, "Button Text", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :cta_text, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border", placeholder: "Join the waitlist" %>
+    </div>
+
+    <div>
+      <%= form.label :brand_color, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1 flex items-center gap-3">
+        <%= form.color_field :brand_color, class: "h-10 w-14 rounded border border-gray-300 cursor-pointer" %>
+        <%= form.text_field :brand_color, class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border", data: { controller: "color-sync" } %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :status, Waitlist.statuses.keys.map { |s| [s.capitalize, s] }, {}, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <%= form.label :launch_date, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :launch_date, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div class="sm:col-span-2">
+      <div class="flex items-center gap-x-3">
+        <%= form.check_box :referral_enabled, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+        <%= form.label :referral_enabled, "Enable referral system", class: "text-sm font-medium text-gray-700" %>
+      </div>
+      <p class="mt-1 text-xs text-gray-500">Subscribers get a referral link and move up the list when friends join.</p>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end gap-x-3 border-t border-gray-200 pt-6">
+    <%= link_to "Cancel", waitlists_path, class: "text-sm font-medium text-gray-700 hover:text-gray-500" %>
+    <%= form.submit class: "rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 cursor-pointer" %>
+  </div>
+<% end %>

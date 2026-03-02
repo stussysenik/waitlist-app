@@ -1,0 +1,28 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Waitlists</h1>
+      <p class="mt-1 text-sm text-gray-500">Manage all your waitlist pages.</p>
+    </div>
+    <%= link_to new_waitlist_path, class: "inline-flex items-center gap-x-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500" do %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      New Waitlist
+    <% end %>
+  </div>
+
+  <% if @waitlists.any? %>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <%= render partial: "dashboard/waitlist_card", collection: @waitlists, as: :waitlist, cached: true %>
+    </div>
+  <% else %>
+    <div class="rounded-xl border-2 border-dashed border-gray-300 p-12 text-center">
+      <h3 class="text-sm font-semibold text-gray-900">No waitlists yet</h3>
+      <p class="mt-1 text-sm text-gray-500">Create your first waitlist to start collecting emails.</p>
+      <div class="mt-6">
+        <%= link_to "Create Waitlist", new_waitlist_path, class: "inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>
