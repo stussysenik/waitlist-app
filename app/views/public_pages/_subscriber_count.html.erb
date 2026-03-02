@@ -1,0 +1,11 @@
+<% count = waitlist.subscribers_count %>
+<% if count > 0 %>
+  <div class="inline-flex items-center gap-x-2 text-sm text-gray-500">
+    <div class="flex -space-x-1.5">
+      <% 3.times do %>
+        <div class="inline-block h-6 w-6 rounded-full bg-gray-200 ring-2 ring-white"></div>
+      <% end %>
+    </div>
+    <span>Join <strong class="text-gray-700"><%= number_with_delimiter(count) %></strong> others on the waitlist</span>
+  </div>
+<% end %>

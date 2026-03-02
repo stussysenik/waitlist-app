@@ -1,0 +1,77 @@
+<% content_for(:title) { "#{@waitlist.name} - Join the Waitlist" } %>
+<% content_for(:meta_description) { "#{number_with_delimiter(@waitlist.subscribers_count)} people are already on the #{@waitlist.name} waitlist. Join them!" } %>
+<% content_for(:head) do %>
+  <style>
+    :root { --brand-color: <%= @waitlist.brand_color %>; }
+    .brand-bg { background-color: var(--brand-color); }
+    .brand-bg-hover:hover { background-color: color-mix(in srgb, var(--brand-color), black 10%); }
+    .brand-text { color: var(--brand-color); }
+    .brand-ring:focus { --tw-ring-color: var(--brand-color); }
+  </style>
+<% end %>
+
+<div class="min-h-screen flex flex-col">
+  <!-- Main content -->
+  <main class="flex-1 flex items-center justify-center px-6 py-16">
+    <div class="mx-auto max-w-xl text-center">
+      <!-- Logo / name -->
+      <div class="inline-flex items-center justify-center rounded-full brand-bg/10 px-4 py-1.5 mb-8" style="background-color: color-mix(in srgb, <%= @waitlist.brand_color %>, transparent 90%);">
+        <span class="text-sm font-medium brand-text"><%= @waitlist.name %></span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+        <%= @waitlist.headline.presence || "Something amazing is coming" %>
+      </h1>
+
+      <!-- Description -->
+      <% if @waitlist.description.present? %>
+        <p class="mt-6 text-lg leading-8 text-gray-600">
+          <%= @waitlist.description %>
+        </p>
+      <% end %>
+
+      <!-- Signup form / Thank you -->
+      <% if @just_subscribed && @subscriber&.persisted? %>
+        <%= render "thank_you", subscriber: @subscriber, waitlist: @waitlist %>
+      <% else %>
+        <div id="signup_form" class="mt-10">
+          <%= form_with model: @subscriber, url: public_page_subscribe_path(@waitlist.slug, ref: params[:ref]), class: "mx-auto max-w-md" do |form| %>
+            <% if @subscriber.errors.any? %>
+              <div class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700 text-left">
+                <% @subscriber.errors.full_messages.each do |msg| %>
+                  <p><%= msg %></p>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="flex gap-x-3">
+              <%= form.email_field :email, required: true, placeholder: "Enter your email", autocomplete: "email", class: "min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 brand-ring", style: "--tw-ring-color: #{@waitlist.brand_color}" %>
+              <%= form.submit @waitlist.cta_text, class: "rounded-lg brand-bg brand-bg-hover px-6 py-3 text-sm font-semibold text-white shadow-sm cursor-pointer transition-colors" %>
+            </div>
+
+            <% if @waitlist.referral_enabled? %>
+              <p class="mt-3 text-xs text-gray-500">Get a referral link after signing up to move up the list.</p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Live subscriber count -->
+      <div class="mt-8">
+        <%= turbo_stream_from @waitlist %>
+        <div id="subscriber_count_<%= @waitlist.id %>">
+          <%= render "subscriber_count", waitlist: @waitlist %>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-6 text-center">
+    <p class="text-xs text-gray-400">
+      Powered by
+      <a href="/" class="text-gray-500 hover:text-gray-700 font-medium">WaitlistApp</a>
+    </p>
+  </footer>
+</div>

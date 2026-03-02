@@ -1,0 +1,26 @@
+<div id="signup_form" class="mt-10">
+  <div class="mx-auto max-w-md rounded-2xl bg-green-50 p-8 text-center">
+    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+      <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+    <h3 class="mt-4 text-lg font-semibold text-gray-900">You're on the list!</h3>
+    <p class="mt-2 text-sm text-gray-600">
+      You're <strong>#<%= subscriber.position %></strong> on the waitlist.
+      <% if waitlist.referral_enabled? %>
+        Share your link to move up!
+      <% end %>
+    </p>
+
+    <% if waitlist.referral_enabled? %>
+      <div class="mt-6" data-controller="clipboard">
+        <label class="block text-xs font-medium text-gray-500 mb-2">Your referral link</label>
+        <div class="flex gap-x-2">
+          <input type="text" readonly value="<%= subscriber.referral_url(request) %>" data-clipboard-target="source" class="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs text-gray-700 focus:outline-none">
+          <button data-action="clipboard#copy" class="rounded-lg brand-bg px-4 py-2 text-xs font-medium text-white brand-bg-hover transition-colors">Copy</button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
