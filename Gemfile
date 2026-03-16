@@ -37,7 +37,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "csv"
-gem "stripe", "~> 13.0"
+gem "stripe", "~> 18.4"
 gem "pagy"
 gem "chartkick"
 gem "groupdate"
