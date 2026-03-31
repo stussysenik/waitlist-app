@@ -2,6 +2,9 @@
 
 # WaitlistApp
 
+![Demo](demo.gif)
+
+
 ### Viral waitlists with built-in referral mechanics
 
 ![Rails](https://img.shields.io/badge/Rails-8.1-CC0000?style=flat-square&logo=rubyonrails&logoColor=white)
